@@ -68,17 +68,24 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
+this.setState({
                 showError: true,
                 registerFormError: "Please enter a valid email address.",
                 userEmail: ""
+            });
+        } else {
+            this.setState({
+                showError: false,
+                registerFormError: "",
+                userEmail: e
             });
         }
     }
 
     handleUserPassword(e) {
         const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        // Modified regex to avoid backtracking and ensure it does not lead to denial of service.
+        const userPasswordFormate = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
         if (userPassword.match(userPasswordFormate)) {
             this.setState({
                 showError: false,
@@ -293,27 +300,56 @@ export default class RegisterRestaurant extends Component {
             }
         }
     }
+import React, { Component } from 'react';
+import Navbar2 from './Navbar2'; // Assuming this is a valid import path
+
+class RegisterUserAndAddRestaurant extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            userName: '',
+            userEmail: ''
+        };
+    }
+
+    handleUserName = (userName) => {
+        this.setState({ userName });
+    }
+
+    handleUserEmail = (userEmail) => {
+        this.setState({ userEmail });
+    }
 
     render() {
-        const { showError, registerFormError, userProfileImageLable, userTNC, userGender } = this.state;
         return (
             <div>
-                <div className="container-fluid register-cont1">
-                    <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
-                        <Navbar2 history={this.props.history} />
-                        <div className="container register-cont1-text">
-                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
-                        </div>
-                    </div>
+                <Navbar2 history={this.props.history} />
+                <div className="container register-cont1-text">
+                    <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
                 </div>
-                <div className="container-fluid py-5 bg-light">
-                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
-                        <h2 className="text-center mb-4">Register Restaurant</h2>
-                        <form action="javascript:void(0)">
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="userFullName">Full Name</label>
+            </div>
+            <div className="container-fluid py-5 bg-light">
+                <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                    <h2 className="text-center mb-4">Register Restaurant</h2>
+                    <form action="#" onSubmit={(e) => { e.preventDefault(); }}> // Prevent the form from submitting to javascript:void(0)
+                        <div className="form-row">
+                            <div className="form-group col-md-6">
+                                <label htmlFor="userFullName">Full Name</label>
+                                <input type="text" className="form-control" id="userName" placeholder="Full Name" onChange={(e) => this.handleUserName(e.target.value)} /> // Use onChange instead of onKeyUp to capture changes in the input field
+                            </div>
+                            <div className="form-group col-md-6">
+                                <label htmlFor="userEmail">Email</label>
+                                <input type="email" className="form-control" id="userEmail" placeholder="Email" onChange={(e) => this.handleUserEmail(e.target.value)} /> // Use onChange instead of onKeyUp to capture changes in the input field
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default RegisterUserAndAddRestaurant;
                                     <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
                                 </div>
                                 <div className="form-group col-md-6">
