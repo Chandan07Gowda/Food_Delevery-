@@ -105,7 +105,7 @@ export default class AddMenuItems extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
+{/* <Navbar history={this.props.history} /> */}
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Add Your Best Food Items</strong></h1>
@@ -115,7 +115,7 @@ export default class AddMenuItems extends Component {
                 <div className="container-fluid py-5 bg-light">
                     <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
                         <h2 className="text-center mb-4">Add Menu Items</h2>
-                        <form action="javascript:void(0)">
+                        <form action="#" onSubmit={(e) => { e.preventDefault(); this.addItem(); }}>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemTitle"><b>Item Title</b></label>
@@ -126,6 +126,10 @@ export default class AddMenuItems extends Component {
                                     <input type="text" className="form-control" id="itemIngredients" placeholder="Item Ingredients Name" onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
                                 </div>
                             </div>
+                            <button type="submit" className="btn btn-primary">Add Item</button>
+                        </form>
+                    </div>
+                </div>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemPrice"><b>Price</b></label>

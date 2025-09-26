@@ -80,17 +80,24 @@ export default class Login extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
+this.setState({
                 showError: true,
                 registerFormError: "Please enter a valid email address.",
                 userEmail: ""
+            });
+        } else {
+            this.setState({
+                showError: false,
+                registerFormError: "",
+                userEmail: e.target.value
             });
         }
     }
 
     handleUserPassword(e) {
         const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        // Modified regex to avoid backtracking and ensure it does not lead to denial of service.
+        const userPasswordFormate = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
         if (userPassword.match(userPasswordFormate)) {
             this.setState({
                 showError: false,
@@ -321,14 +328,7 @@ export default class Login extends Component {
         }
     }
 
-    render() {
-        const { isRegisterForm, showError, registerFormError, userProfileImageLable, userTNC, userGender } = this.state;
-        return (
-            <div>
-                <div className="container-fluid register-cont1">
-                    <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
-                        <Navbar2 history={this.props.history} />
+<Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>User Login / Register</strong></h1>
                         </div>
@@ -338,10 +338,17 @@ export default class Login extends Component {
                     {isRegisterForm ?
                         <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
                             <h2 className="text-center mb-4">Create an Account</h2>
-                            <form action="javascript:void(0)">
+                            <form action="#" onSubmit={(e) => this.handleRegisterFormSubmit(e)}>
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
                                         <label htmlFor="userFullName">Full Name</label>
+                                        <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="userEmail">Email</label>
+                                        <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                                    </div>
+                                </div>
                                         <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
                                     </div>
                                     <div className="form-group col-md-6">
@@ -385,27 +392,27 @@ export default class Login extends Component {
                                         <p className="mb-2">Profile Image</p>
                                         <div className="custom-file">
                                             <input type="file" className="custom-file-input" id="userProfileImage" onChange={this.handleUserProfileImage} />
-                                            <label className="custom-file-label" htmlFor="userProfileImage">{userProfileImageLable}</label>
-                                        </div>
-                                    </div>
+<label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
                                 </div>
-                                <div className="form-group">
-                                    <div className="custom-control custom-checkbox">
-                                        <input type="checkbox" className="custom-control-input" id="userTNC" defaultChecked={userTNC} onChange={this.handleUserTNC} />
-                                        <label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
-                                    </div>
-                                </div>
-                                <p className="text-danger">{showError ? registerFormError : null}</p>
-                                <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleCreateAccountBtn}><b>Create an Account</b></button>
-                            </form>
-                            <p className="m-0">Already have an account? <span className="cursor-pointer text-warning" onClick={this.handleForms}>Login Here</span></p>
-                        </div> :
-                        <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
-                            <h2 className="text-center mb-4">Login Your Account</h2>
-                            <form action="javascript:void(0)">
-                                <div className="form-group">
-                                    <label htmlFor="userLoginEmail">Email</label>
-                                    <input type="email" className="form-control" id="userLoginEmail" placeholder="Email" onChange={(e) => this.setState({userLoginEmail: e.target.value})} />
+                            </div>
+                            <p className="text-danger">{showError ? registerFormError : null}</p>
+                            <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleCreateAccountBtn}><b>Create an Account</b></button>
+                        </form>
+                        <p className="m-0">Already have an account? <span className="cursor-pointer text-warning" onClick={this.handleForms}>Login Here</span></p>
+                    </div> :
+                    <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                        <h2 className="text-center mb-4">Login Your Account</h2>
+                        <form action="#" method="POST">  // Changed from "javascript:void(0)" to "#" and added a POST method
+                            <div className="form-group">
+                                <label htmlFor="userLoginEmail">Email</label>
+                                <input type="email" className="form-control" id="userLoginEmail" placeholder="Email" onChange={(e) => this.setState({userLoginEmail: e.target.value})} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userLoginPassword">Password</label>
+                                <input type="password" className="form-control" id="userLoginPassword" placeholder="Password" onChange={(e) => this.setState({userLoginPassword: e.target.value})} />
+                            </div>
+                            <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleLoginNowBtn}><b>Login Now</b></button>  // Removed the "javascript:void(0)" and replaced with a POST method
+                        </form>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="userLoginPassword">Password</label>
