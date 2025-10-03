@@ -68,17 +68,24 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
+this.setState({
                 showError: true,
                 registerFormError: "Please enter a valid email address.",
                 userEmail: ""
+            });
+        } else {
+            this.setState({
+                showError: false,
+                registerFormError: "",
+                userEmail: e
             });
         }
     }
 
     handleUserPassword(e) {
         const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        // Updated regex to avoid backtracking and super-linear runtime.
+        const userPasswordFormate = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
         if (userPassword.match(userPasswordFormate)) {
             this.setState({
                 showError: false,
