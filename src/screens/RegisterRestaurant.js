@@ -300,27 +300,45 @@ export default class RegisterRestaurant extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
-                        <Navbar2 history={this.props.history} />
-                        <div className="container register-cont1-text">
-                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
-                        </div>
-                    </div>
-                </div>
-                <div className="container-fluid py-5 bg-light">
-                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
-                        <h2 className="text-center mb-4">Register Restaurant</h2>
-                        <form action="javascript:void(0)">
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="userFullName">Full Name</label>
-                                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="userEmail">Email</label>
-                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
-                                </div>
-                            </div>
+Here is the modified code that addresses the security hotspot issue:
+
+```jsx
+<form onSubmit={(e) => this.handleRestaurantAdd(e)}>
+    <div className="form-row">
+        <div className="form-group col-md-6">
+            <label htmlFor="userName">Full Name</label>
+            <input type="text" className="form-control" id="userName" placeholder="Full Name" />
+        </div>
+        <div className="form-group col-md-6">
+            <label htmlFor="userEmail">Email</label>
+            <input type="email" className="form-control" id="userEmail" placeholder="Email" />
+        </div>
+    </div>
+    {/* ... */}
+</form>
+
+function handleRestaurantAdd(e) {
+    e.preventDefault();
+    const userName = document.getElementById("userName").value;
+    const userEmail = document.getElementById("userEmail").value;
+
+    // Add your restaurant registration logic here. The following code assumes that you have a REST API endpoint to register a restaurant.
+    fetch('/api/register-restaurant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userName, userEmail }),
+    })
+    .then(response => response.json())
+    .then(result => console.log('Registration successful:', result))
+    .catch(error => console.error('Registration failed:', error));
+}
+```
+
+In this modified code, the `<form>` element now includes an `onSubmit` handler that prevents the default submission behavior and handles the form submission through an AJAX request using the `fetch` API. The logic to send the form data (the full name and email) to your REST API endpoint is contained within a function called `handleRestaurantAdd`. This function uses the event parameter to prevent the default action of submitting the form and instead sends an HTTP POST request with the form data to `/api/register-restaurant`.
+
+By using fetch with JSON.stringify, you ensure that the form data is properly formatted as application/json for your REST API endpoint. The `.then` and `.catch` clauses are used to handle the response from the server, logging a message indicating whether the registration was successful or failed.
+
+Please note that this code assumes that you have an `/api/register-restaurant` endpoint on your server that accepts POST requests with JSON-encoded data in the body and performs the necessary authentication (e.g., verifying email uniqueness) and registration logic. The actual implementation of the REST API will depend on your specific backend framework, but the key point is to use fetch for a secure and reliable form submission process.џџџџџџџџџџџџџџџџ
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userPassword">Password</label>
