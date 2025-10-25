@@ -105,7 +105,10 @@ export default class AddMenuItems extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
+Here is the fixed code:
+
+```jsx
+{/* <Navbar history={this.props.history} /> */}
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Add Your Best Food Items</strong></h1>
@@ -115,17 +118,25 @@ export default class AddMenuItems extends Component {
                 <div className="container-fluid py-5 bg-light">
                     <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
                         <h2 className="text-center mb-4">Add Menu Items</h2>
-                        <form action="javascript:void(0)">
+                        <form onSubmit={this.onSubmit}>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemTitle"><b>Item Title</b></label>
-                                    <input type="text" className="form-control" id="itemTitle" placeholder="Full name of dish" onChange={(e) => this.setState({ itemTitle: e.target.value })} />
+                                    <input type="text" className="form-control" id="itemTitle" placeholder="Full name of dish"
+                                           onChange={(e) => this.setState({ itemTitle: e.target.value })} />
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemIngredients"><b>Item Ingredients</b></label>
-                                    <input type="text" className="form-control" id="itemIngredients" placeholder="Item Ingredients Name" onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
+                                    <input type="text" className="form-control" id="itemIngredients"
+                                           placeholder="Item Ingredients Name"
+                                           onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
                                 </div>
                             </div>
+```
+
+To fix the security issue, I've replaced `action="javascript:void(0)"` with an actual form submission behavior by using `onSubmit={this.onSubmit}`. This way, when the form is submitted, it will call the specified function to handle the form submission instead of running arbitrary JavaScript code.
+
+Remember to always validate and sanitize user input before using them in any way, especially for security-sensitive operations like saving data or executing JavaScript code. Also, consider using a library such as React Hook Form to handle forms with more advanced features like validation and state management.
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemPrice"><b>Price</b></label>
