@@ -300,7 +300,10 @@ export default class RegisterRestaurant extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
+Here is the fixed code with the necessary changes to address the security hotspot issue:
+
+```jsx
+{/* <Navbar history={this.props.history} /> */}
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
@@ -310,17 +313,26 @@ export default class RegisterRestaurant extends Component {
                 <div className="container-fluid py-5 bg-light">
                     <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
                         <h2 className="text-center mb-4">Register Restaurant</h2>
-                        <form action="javascript:void(0)">
+                        {/* Change action to "#" and add onSubmit event handler */}
+                        <form action="#" onSubmit={(e) => this.handleFormSubmission(e)}>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userFullName">Full Name</label>
-                                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+                                    <input type="text" className="form-control" id="userName" placeholder="Full Name"
+                                           onKeyUp={(e) => this.handleUserName(e.target.value)} />
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userEmail">Email</label>
-                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                                    <input type="email" className="form-control" id="userEmail" placeholder="Email"
+                                           onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
                                 </div>
                             </div>
+```
+
+By changing the `action` attribute of the form to `#` and adding an onSubmit event handler, you prevent any potential security issues that could arise from the original code's use of a JavaScript URL. The action attribute is now a placeholder value that prevents the browser from making a potentially harmful request.
+
+The handleSubmit function should be implemented in your component code to handle form submission logic safely.
+```
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userPassword">Password</label>
