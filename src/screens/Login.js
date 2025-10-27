@@ -328,27 +328,60 @@ export default class Login extends Component {
                 <div className="container-fluid register-cont1">
                     <div className="">
                         {/* <Navbar history={this.props.history} /> */}
-                        <Navbar2 history={this.props.history} />
-                        <div className="container register-cont1-text">
-                            <h1 className="text-uppercase text-white text-center mb-4"><strong>User Login / Register</strong></h1>
-                        </div>
-                    </div>
+To address the security hotspot issue related to 'javascript:' code, we can use a safer approach by using a library like React Router DOM instead of writing our own navigation logic with history object.
+
+Here is the fixed code that uses React Router DOM and removes the 'javascript:' action:
+
+```jsx
+import { useHistory } from "react-router-dom";
+
+// ... other imports
+
+const Navbar2 = () => {
+  const history = useHistory();
+
+  // ... other components or functionality here
+
+  return (
+    <Navbar>
+      <div className="container register-cont1-text">
+        <h1 className="text-uppercase text-white text-center mb-4"><strong>User Login / Register</strong></h1>
+      </div>
+      <div className="container-fluid py-5 bg-light">
+        {isRegisterForm ? (
+          <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
+            <h2 className="text-center mb-4">Create an Account</h2>
+            <form>
+              <div className="form-row">
+                <div className="form-group col-md-6">
+                  <label htmlFor="userFullName">Full Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="userName"
+                    placeholder="Full Name"
+                    onKeyUp={(e) => this.handleUserName(e.target.value)}
+                  />
                 </div>
-                <div className="container-fluid py-5 bg-light">
-                    {isRegisterForm ?
-                        <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
-                            <h2 className="text-center mb-4">Create an Account</h2>
-                            <form action="javascript:void(0)">
-                                <div className="form-row">
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="userFullName">Full Name</label>
-                                        <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="userEmail">Email</label>
-                                        <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
-                                    </div>
-                                </div>
+                <div className="form-group col-md-6">
+                  <label htmlFor="userEmail">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="userEmail"
+                    placeholder="Email"
+                    onKeyUp={(e) => this.handleUserEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+
+```
+
+By using `useHistory` from React Router DOM, we ensure that the navigation logic is handled by a library specifically designed for routing in React applications. This approach removes the need to use 'javascript:' actions directly, which can be a potential security risk.
+
+Keep in mind that this code assumes the existence of a `<Navbar>` component and other related components that are not shown here. The `handleUserName` and `handleUserEmail` functions are placeholders for actual form handling logic, which should also be implemented securely.
+
+Remember to handle any sensitive user input, such as email or password fields, with caution to prevent security vulnerabilities like cross-site scripting (XSS) attacks.
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
                                         <label htmlFor="userPassword">Password</label>
