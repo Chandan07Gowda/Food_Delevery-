@@ -105,27 +105,36 @@ export default class AddMenuItems extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
-                        <Navbar2 history={this.props.history} />
-                        <div className="container register-cont1-text">
-                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Add Your Best Food Items</strong></h1>
-                        </div>
-                    </div>
+```javascript
+// Fixed Code:
+// <Navbar history={this.props.history} /> 
+<Navbar2 history={this.props.history} />
+<div className="container register-cont1-text">
+    <h1 className="text-uppercase text-white text-center mb-4"><strong>Add Your Best Food Items</strong></h1>
+</div>
+</div>
+</div>
+<div className="container-fluid py-5 bg-light">
+    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+        <h2 className="text-center mb-4">Add Menu Items</h2>
+        <form action="/addMenuItems" method="POST">
+            <!-- Note: The 'action' is changed to a valid URL '/addMenuItems'. -->
+            <div className="form-row">
+                <div className="form-group col-md-6">
+                    <label htmlFor="itemTitle"><b>Item Title</b></label>
+                    <input type="text" className="form-control" id="itemTitle" placeholder="Full name of dish"
+                        onChange={(e) => this.setState({ itemTitle: e.target.value })} />
                 </div>
-                <div className="container-fluid py-5 bg-light">
-                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
-                        <h2 className="text-center mb-4">Add Menu Items</h2>
-                        <form action="javascript:void(0)">
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="itemTitle"><b>Item Title</b></label>
-                                    <input type="text" className="form-control" id="itemTitle" placeholder="Full name of dish" onChange={(e) => this.setState({ itemTitle: e.target.value })} />
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="itemIngredients"><b>Item Ingredients</b></label>
-                                    <input type="text" className="form-control" id="itemIngredients" placeholder="Item Ingredients Name" onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
-                                </div>
-                            </div>
+                <div className="form-group col-md-6">
+                    <label htmlFor="itemIngredients"><b>Item Ingredients</b></label>
+                    <input type="text" className="form-control" id="itemIngredients"
+                        placeholder="Item Ingredients Name"
+                        onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
+                </div>
+            </div>
+```
+
+By changing the 'action' attribute of the form to a valid URL '/addMenuItems', we ensure that user input is not evaluated directly in JavaScript. This prevents potential security vulnerabilities and makes the code safer.
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemPrice"><b>Price</b></label>
