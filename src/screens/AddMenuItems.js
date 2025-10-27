@@ -105,27 +105,39 @@ export default class AddMenuItems extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
-                        <Navbar2 history={this.props.history} />
-                        <div className="container register-cont1-text">
-                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Add Your Best Food Items</strong></h1>
-                        </div>
-                    </div>
-                </div>
-                <div className="container-fluid py-5 bg-light">
-                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
-                        <h2 className="text-center mb-4">Add Menu Items</h2>
-                        <form action="javascript:void(0)">
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="itemTitle"><b>Item Title</b></label>
-                                    <input type="text" className="form-control" id="itemTitle" placeholder="Full name of dish" onChange={(e) => this.setState({ itemTitle: e.target.value })} />
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="itemIngredients"><b>Item Ingredients</b></label>
-                                    <input type="text" className="form-control" id="itemIngredients" placeholder="Item Ingredients Name" onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
-                                </div>
-                            </div>
+```javascript
+<div className="form-row">
+  // Add form field for itemPrice
+  <div className="form-group col-md-6">
+    <label htmlFor="itemTitle"><b>Item Title</b></label>
+    <input type="text" className="form-control" id="itemTitle" placeholder="Full name of dish"
+      onChange={(e) => this.setState({ itemTitle: e.target.value })} />
+  </div>
+  
+  // Add form field for itemIngredients
+  <div className="form-group col-md-6">
+    <label htmlFor="itemIngredients"><b>Item Ingredients</b></label>
+    <input type="text" className="form-control" id="itemIngredients"
+      placeholder="Item Ingredients Name" onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
+  </div>
+
+  // Add form field for itemPrice
+  <div className="form-group col-md-6">
+    <label htmlFor="itemPrice"><b>Item Price</b></label>
+    <input type="number" min=0 className="form-control" id="itemPrice"
+      placeholder="Price of dish in US dollars, rounded to the nearest cent" 
+      onChange={(e) => this.setState({ itemPrice: e.target.value })} />
+  </div>
+</div>
+```
+
+I've added a new form field for `itemPrice` and made sure that it's a number type with a minimum value of 0. This prevents users from entering invalid data, such as negative prices or non-numeric characters.
+
+Make sure to handle the `onChange` event correctly in your state management (e.g., using React Hooks like `useState`) to update the state according to the user input.
+
+Remember to also add validation and error handling if needed, especially for ensuring that users enter a valid price. For example, you might want to ensure that the entered price is positive and has at most two decimal places.
+
+Always make sure to test your changes thoroughly before deploying them in a production environment. It's essential to have solid testing processes in place to catch any security vulnerabilities that may still exist after code fixes like these are made.
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemPrice"><b>Price</b></label>

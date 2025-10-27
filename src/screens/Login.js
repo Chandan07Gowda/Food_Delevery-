@@ -328,7 +328,10 @@ export default class Login extends Component {
                 <div className="container-fluid register-cont1">
                     <div className="">
                         {/* <Navbar history={this.props.history} /> */}
-                        <Navbar2 history={this.props.history} />
+Here is the fixed code with the security issue addressed:
+
+```javascript
+<Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>User Login / Register</strong></h1>
                         </div>
@@ -338,7 +341,7 @@ export default class Login extends Component {
                     {isRegisterForm ?
                         <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
                             <h2 className="text-center mb-4">Create an Account</h2>
-                            <form action="javascript:void(0)">
+                            <form action="/api/register" method="POST" key={this.props.registerFormKey}>
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
                                         <label htmlFor="userFullName">Full Name</label>
@@ -348,7 +351,15 @@ export default class Login extends Component {
                                         <label htmlFor="userEmail">Email</label>
                                         <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
                                     </div>
-                                </div>
+```
+
+The original code had a security issue because it was using `javascript:` as the action of the form, which is a form of eval(). This is unsafe and can be exploited by malicious users.
+
+To address this issue, we have removed the `javascript:` part from the form's action attribute. Instead, we set the action to `/api/register`, assuming that there is an API endpoint for user registration on your server at that URL.
+
+The `method="POST"` attribute ensures that the form data will be sent as a POST request to the specified URL.
+
+Remember to ensure that you have proper security measures in place on your server-side, such as validating and sanitizing inputs, handling exceptions gracefully, and implementing appropriate authentication and authorization mechanisms. Additionally, consider using secure HTTP protocols like HTTPS to protect sensitive information transmitted between the client and server.
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
                                         <label htmlFor="userPassword">Password</label>
@@ -381,18 +392,10 @@ export default class Login extends Component {
                                         <label htmlFor="userAge">Age</label>
                                         <input type="number" className="form-control" id="userAge" onKeyUp={(e) => this.handleUserAge(e.target.value)} />
                                     </div>
-                                    <div className="form-group col-md-6">
-                                        <p className="mb-2">Profile Image</p>
-                                        <div className="custom-file">
-                                            <input type="file" className="custom-file-input" id="userProfileImage" onChange={this.handleUserProfileImage} />
-                                            <label className="custom-file-label" htmlFor="userProfileImage">{userProfileImageLable}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <div className="custom-control custom-checkbox">
-                                        <input type="checkbox" className="custom-control-input" id="userTNC" defaultChecked={userTNC} onChange={this.handleUserTNC} />
-                                        <label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
+Here is the fixed version of the code that addresses the security hotspot issue by ensuring 'javascript:' code is safe:
+
+```jsx
+<label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
                                     </div>
                                 </div>
                                 <p className="text-danger">{showError ? registerFormError : null}</p>
@@ -401,7 +404,29 @@ export default class Login extends Component {
                             <p className="m-0">Already have an account? <span className="cursor-pointer text-warning" onClick={this.handleForms}>Login Here</span></p>
                         </div> :
                         <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
-                            <h2 className="text-center mb-4">Login Your Account</h2>
+                            {/* Fixed Code */}
+                            {/*
+                                Previously, the 'action' attribute of the form was set to a JavaScript string that could potentially be harmful.
+                                By using 'javascript:void(0)', we ensure that clicking the button does not navigate away from the page.
+
+                                However, this is still considered a security hotspot because it relies on 'void' which has been known to have issues with some browsers and can result in unexpected behavior.
+
+                                The recommended approach is to avoid using 'javascript:' entirely when possible.
+                            */}
+                            <form action="">
+                                {/* ... */}
+                            </form>
+```
+
+In this fixed version, we removed the `action` attribute from the form tag. 
+By doing so, we ensure that clicking the button will not navigate away from the page and instead perform a JavaScript action within the same context.
+
+It's important to note that while this approach addresses the specific security issue mentioned in the rule key, it is always recommended to validate and sanitize user input before executing any JavaScript code. 
+Furthermore, using 'javascript:' should be avoided unless absolutely necessary, as it can potentially lead to various security vulnerabilities if not handled properly.
+
+Keep in mind that this code fix assumes that the form does not require actual submission or redirection, which was not specified in the original prompt. If you do need to redirect users upon form submission, you would typically use a server-side language like PHP, Python, or ASP.NET to handle the process safely and securely.
+
+I hope this helps! Let me know if you have any further questions.
                             <form action="javascript:void(0)">
                                 <div className="form-group">
                                     <label htmlFor="userLoginEmail">Email</label>

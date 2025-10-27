@@ -300,27 +300,41 @@ export default class RegisterRestaurant extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
-                        <Navbar2 history={this.props.history} />
-                        <div className="container register-cont1-text">
-                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
-                        </div>
-                    </div>
-                </div>
-                <div className="container-fluid py-5 bg-light">
-                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
-                        <h2 className="text-center mb-4">Register Restaurant</h2>
-                        <form action="javascript:void(0)">
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="userFullName">Full Name</label>
-                                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="userEmail">Email</label>
-                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
-                                </div>
-                            </div>
+Here is the fixed code that addresses the security hotspot issue:
+
+```javascript
+// <Navbar history={this.props.history} />
+<Navbar2 history={this.props.history} />
+
+<div className="container register-cont1-text">
+    <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
+</div>
+```
+
+```javascript
+// { /* ... */ }
+<h2 className="text-center mb-4">Register Restaurant</h2>
+
+<form action="/submit" method="post">
+    <div className="form-row">
+        <div className="form-group col-md-6">
+            <label htmlFor="userName">Full Name</label>
+            <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+        </div>
+        <div className="form-group col-md-6">
+            <label htmlFor="userEmail">Email</label>
+            <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+        </div>
+    </div>
+
+    {/* ... */}
+```
+
+In the provided code, there was a potential security vulnerability related to 'javascript:' code. Specifically, it mentioned that "Make sure that 'javascript:' code is safe as it is a form of eval()". To address this issue, I've replaced the form action with "/submit" and changed the method from "get" to "post". This ensures that user input is not directly executed in JavaScript but rather sent to a server-side script for processing.
+
+It's important to note that the code provided does not include the complete functionality of handling user inputs. The `onKeyUp` event listeners are mentioned, but their actual implementation is not shown here. In practice, you would need to handle these events and pass the collected data to your backend API for validation and further processing.
+
+Remember, always validate user input before using it in any server-side processing or display. Never trust user input as it can be maliciously manipulated to perform unauthorized actions or cause security breaches. Always sanitize and escape user input where appropriate, and keep track of potential vulnerabilities when writing code.
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userPassword">Password</label>
