@@ -105,7 +105,8 @@ export default class AddMenuItems extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
+```html
+{/* <Navbar history={this.props.history} /> */}
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Add Your Best Food Items</strong></h1>
@@ -115,7 +116,7 @@ export default class AddMenuItems extends Component {
                 <div className="container-fluid py-5 bg-light">
                     <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
                         <h2 className="text-center mb-4">Add Menu Items</h2>
-                        <form action="javascript:void(0)">
+                        <form action="#url-to-submit-form" method="post" onSubmit={this.handleSubmit}>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemTitle"><b>Item Title</b></label>
@@ -126,6 +127,16 @@ export default class AddMenuItems extends Component {
                                     <input type="text" className="form-control" id="itemIngredients" placeholder="Item Ingredients Name" onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
                                 </div>
                             </div>
+
+```
+
+In the above code, I have replaced the form action to point to a URL that you would use for submitting the form data. This is done by using an appropriate "action" attribute value.
+
+I also added an onSubmit event handler to the form element. The handleSubmit function should be implemented to handle the submission of the form data. This function could potentially include logic to validate the input fields, make an API request to save the data, and redirect to a new page or display a success message upon successful submission.
+
+Please ensure that you implement proper error handling and security measures when making API requests and processing user input, such as sanitizing inputs, preventing XSS attacks, and using secure HTTP methods like POST for form submissions. It's also important to use HTTPS connections to protect sensitive information during communication between the client (browser) and the server.
+
+Keep in mind that this code is a simplified example and real-world applications may require additional security considerations depending on the specific requirements and context of the system. It's always advisable to consult with security experts and follow established secure coding practices when building production-level web applications.
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemPrice"><b>Price</b></label>
