@@ -105,7 +105,10 @@ export default class AddMenuItems extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
+Here is the fixed version of the code with the security vulnerability addressed:
+
+```html
+{/* <Navbar history={this.props.history} /> */}
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Add Your Best Food Items</strong></h1>
@@ -115,17 +118,30 @@ export default class AddMenuItems extends Component {
                 <div className="container-fluid py-5 bg-light">
                     <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
                         <h2 className="text-center mb-4">Add Menu Items</h2>
-                        <form action="javascript:void(0)">
+                        <form action={process.env.PUBLIC_URL + "/submit"} method="post" onSubmit={(e) => this.handleSubmit(e)}>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemTitle"><b>Item Title</b></label>
-                                    <input type="text" className="form-control" id="itemTitle" placeholder="Full name of dish" onChange={(e) => this.setState({ itemTitle: e.target.value })} />
+                                    <input type="text" className="form-control" id="itemTitle" placeholder="Full name of dish"
+                                           onChange={(e) => this.setState({ itemTitle: e.target.value })} />
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemIngredients"><b>Item Ingredients</b></label>
-                                    <input type="text" className="form-control" id="itemIngredients" placeholder="Item Ingredients Name" onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
+                                    <input type="text" className="form-control" id="itemIngredients"
+                                           placeholder="Item Ingredients Name"
+                                           onChange={(e) => this.setState({ itemIngredients: e.target.value })} />
                                 </div>
                             </div>
+```
+
+To fix the security issue, I have done the following:
+
+1. Removed the `javascript:` from the action attribute of the form.
+2. Replaced it with an actual URL that points to a valid resource (in this case, process.env.PUBLIC_URL + "/submit").
+
+By using an actual URL instead of JavaScript code, we ensure that any data submitted through the form will be sent to a legitimate destination and not executed as JavaScript.
+
+Remember, security is paramount when writing code for public use. Always validate inputs, sanitize outputs, and use secure practices such as encoding or hashing sensitive information.
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="itemPrice"><b>Price</b></label>
