@@ -300,7 +300,10 @@ export default class RegisterRestaurant extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
+Here is the fixed code with the 'javascript:' removed:
+
+```html
+{ /* <Navbar history={this.props.history} /> */ }
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
@@ -310,7 +313,7 @@ export default class RegisterRestaurant extends Component {
                 <div className="container-fluid py-5 bg-light">
                     <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
                         <h2 className="text-center mb-4">Register Restaurant</h2>
-                        <form action="javascript:void(0)">
+                        <form action="#register" method="post">
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userFullName">Full Name</label>
@@ -321,6 +324,11 @@ export default class RegisterRestaurant extends Component {
                                     <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
                                 </div>
                             </div>
+```
+
+The main issue was the 'action' attribute of the form tag pointing to a JavaScript URI, which can be used for security vulnerabilities like XSS (Cross-Site Scripting). To fix this, we changed the action to "#register" and kept it as an HTML form submission. This ensures that the form data is sent to the server-side script responsible for handling the registration process.
+
+Please note that this code does not include any validation logic or other functionalities that may be needed in a real-world scenario. It's just meant to address the security issue of using 'javascript:' in the form action attribute.
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userPassword">Password</label>
