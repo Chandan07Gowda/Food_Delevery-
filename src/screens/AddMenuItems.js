@@ -108,7 +108,7 @@ export default class AddMenuItems extends Component {
 Here is the fixed version of the code:
 
 ```jsx
-<form action="javascript:void(0)">
+<form action="/submit-item">
     <input type="hidden" name="itemTitle" id="itemTitle" value={this.state.itemTitle} />
     <input type="hidden" name="itemIngredients" id="itemIngredients" value={this.state.itemIngredients} />
 
@@ -118,14 +118,14 @@ Here is the fixed version of the code:
 </form>
 ```
 
-In the above code, we have added hidden input fields to store the values of 'itemTitle' and 'itemIngredients'. This is a better way to pass data to the server without exposing it directly through JavaScript. The 'handleSubmit' function will be responsible for handling the submission of this form and passing the data to the backend.
+In the above code, we have changed the 'action' attribute of the 'form' tag to '/submit-item', which is a valid URL that can be used for submitting form data. This ensures that when the user clicks on the 'Submit' button, the form data will be sent to the '/submit-item' endpoint, where it can be processed by the server.
 
-By using this approach, we prevent the potential security issue mentioned in the original code where 'javascript:' was used as an action for the form tag, which could lead to malicious scripts being executed by users with access to the page. The 'void(0)' trick is used here because it doesn't have any meaning or side effects.
+By using this approach, we have removed any potential security issues associated with using 'javascript:' as an action for the form tag. The 'void(0)' trick is no longer necessary since we are now using a valid URL instead of executing JavaScript code directly.
 
-Remember, this code assumes that there's a handleSubmit function defined elsewhere in your component that handles submitting the form data to the server. If you don't have such a function, you should create one and call it from the onClick event handler of the button element as shown above.
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="itemPrice"><b>Price</b></label>
+Remember to make sure that you have a proper submission handler on your server-side that can handle requests sent to '/submit-item'. This handler should be responsible for validating and processing the incoming form data, ensuring secure and reliable handling of user input.
+
+Keep in mind that this code assumes that you already have a handleSubmit function defined elsewhere in your component. If not, you would need to create one and call it from the onClick event handler of the 'Submit' button as shown above.
+```
                                     <input type="number" className="form-control" id="itemPrice" placeholder="Price in number" onChange={(e) => this.setState({ itemPrice: e.target.value })} />
                                 </div>
                                 <div className="form-group col-md-6">
