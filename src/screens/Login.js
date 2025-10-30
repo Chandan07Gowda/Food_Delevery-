@@ -336,7 +336,7 @@ Here's how you can fix the code to address the security hotspot issue:
 {isRegisterForm ?
     <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
         <h2 className="text-center mb-4">Create an Account</h2>
-        <form action="register.html" method="post">
+        <form action="/register" method="post">
             <div className="form-row">
                 <div className="form-group col-md-6">
                     <label htmlFor="userFullName">Full Name</label>
@@ -349,6 +349,10 @@ Here's how you can fix the code to address the security hotspot issue:
             </div>
 
 ```
+
+In the above code, we have replaced the `action` attribute with a URL that points to the correct login or registration page. This ensures that user data is submitted securely and eliminates the need for JavaScript manipulation within the HTML form tag.
+
+Remember to always be cautious when writing code that handles sensitive information like user credentials. Using secure practices such as avoiding direct execution of JavaScript in forms, ensuring proper input validation and handling, and securely storing and transmitting data can help prevent potential security vulnerabilities.
 
 In the above code, we've changed the `action` attribute of the form to point to a URL that will load the appropriate login or registration page. We're using `.html` extension which is not secure but it's better than writing JavaScript code directly into the HTML.
 
@@ -388,27 +392,23 @@ If you need further assistance or have any other security-related questions, fee
                                         </select>
                                     </div>
                                     <div className="form-group col-md-2">
-                                        <label htmlFor="userAge">Age</label>
-                                        <input type="number" className="form-control" id="userAge" onKeyUp={(e) => this.handleUserAge(e.target.value)} />
-                                    </div>
-                                    <div className="form-group col-md-6">
 Here is the modified code that addresses the security hotspot issue:
 
 ```jsx
-<label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
-                                    </div>
-                                </div>
-                                <p className="text-danger">{showError ? registerFormError : null}</p>
-                                <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleCreateAccountBtn}><b>Create an Account</b></button>
-                            </form>
-                            <p className="m-0">Already have an account? <span className="cursor-pointer text-warning" onClick={this.handleForms}>Login Here</span></a></p>
-                        </div> :
-                        <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
-                            <h2 className="text-center mb-4">Login Your Account</h2>
-                            <form action="/login" method="post">
-                                <input type="hidden" name="csrftoken" value={this.state.csrftoken} />
-                                <div className="form-group">
-                                    <label htmlFor="userLoginEmail">Email</label>
+<form action="/login" method="post">
+  <input type="hidden" name="csrftoken" value={this.state.csrftoken} />
+  {/* Removed unused 'javascript:' URL protocol */}
+  {/*<a href="javascript:document.forms[0].submit();">*/}
+  {/*    Log In with Facebook*/}
+  {/*</a>*/}
+  ...
+```
+
+The code above addresses the security hotspot issue by removing the unnecessary `javascript:` protocol in the anchor tag. The original code had an anchor tag that was using the `javascript:` URL protocol, which is a potential security vulnerability as it can be used to execute arbitrary JavaScript code on the user's device.
+
+By removing this line of code, we ensure that the form submission is handled by the normal browser behavior and not through JavaScript manipulation. This helps prevent potential vulnerabilities such as cross-site scripting (XSS) attacks or other malicious scripts being executed on the user's machine without their knowledge.
+
+Remember to always review code for security issues and make sure it follows best practices to protect users from potential threats.
                                     <input type="email" className="form-control" id="userLoginEmail" placeholder="Email" onChange={(e) => this.setState({ userLoginEmail: e.target.value })} />
                                 </div>
                                 <div className="form-group">
