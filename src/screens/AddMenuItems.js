@@ -105,27 +105,14 @@ export default class AddMenuItems extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-Here is the fixed version of the code:
-
-```jsx
-<form action="javascript:void(0)">
-    <input type="hidden" name="itemTitle" id="itemTitle" value={this.state.itemTitle} />
-    <input type="hidden" name="itemIngredients" id="itemIngredients" value={this.state.itemIngredients} />
-
+<form action={this.state.action} method="POST" id="edit-form">
+    <input type="hidden" name="id" value={props.id} />
+    {formElements}
+    
     {/* Other form elements... */}
 
-    <button className="btn btn-primary" onClick={() => this.handleSubmit()}>Submit</button>
+    <button className="btn btn-primary" onClick={() => this.handleSubmit()}>Save Changes</button>
 </form>
-```
-
-In the above code, we have added hidden input fields to store the values of 'itemTitle' and 'itemIngredients'. This is a better way to pass data to the server without exposing it directly through JavaScript. The 'handleSubmit' function will be responsible for handling the submission of this form and passing the data to the backend.
-
-By using this approach, we prevent the potential security issue mentioned in the original code where 'javascript:' was used as an action for the form tag, which could lead to malicious scripts being executed by users with access to the page. The 'void(0)' trick is used here because it doesn't have any meaning or side effects.
-
-Remember, this code assumes that there's a handleSubmit function defined elsewhere in your component that handles submitting the form data to the server. If you don't have such a function, you should create one and call it from the onClick event handler of the button element as shown above.
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="itemPrice"><b>Price</b></label>
                                     <input type="number" className="form-control" id="itemPrice" placeholder="Price in number" onChange={(e) => this.setState({ itemPrice: e.target.value })} />
                                 </div>
                                 <div className="form-group col-md-6">
