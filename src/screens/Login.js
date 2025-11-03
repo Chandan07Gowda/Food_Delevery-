@@ -80,27 +80,28 @@ export default class Login extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
-    }
+this.setState({
+    showError: true,
+    registerFormError: "Please enter a valid email address.",
+    userEmail: ""
+});
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+const userPassword = e;
+// Fixed regex to avoid super-linear runtime due to backtracking
+const userPasswordFormate = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{10,}$/;
+
+if (userPassword.match(userPasswordFormate)) {
+    this.setState({
+        showError: false,
+        registerFormError: "",
+        userPassword: userPassword,
+    });
+} else {
+    this.setState({
+        showError: true,
+        registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
                 userPassword: "",
             });
         }
@@ -213,27 +214,19 @@ export default class Login extends Component {
             this.setState({
                 userTNC: false,
                 showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        }
-    }
+const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
-    async handleCreateAccountBtn() {
-        const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
-
-        // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
-        const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
-        const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
-        const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
-
-        if (!userName.match(userNameFormate)) {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid name.",
-            });
-        } else if (!userEmail.match(userEmailFormate)) {
+if (!userName.match(userNameFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid name.",
+    });
+} else if (!userEmail.match(userEmailFormate)) {
+    this.setState({
             this.setState({
                 showError: true,
                 registerFormError: "Please enter a valid email address.",
@@ -335,6 +328,9 @@ Here's how you can fix the code to address the security hotspot issue:
 ```html
 {isRegisterForm ?
     <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
+html
+{isRegisterForm ?
+    <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
         <h2 className="text-center mb-4">Create an Account</h2>
         <form action="register.html" method="post">
             <div className="form-row">
@@ -347,15 +343,6 @@ Here's how you can fix the code to address the security hotspot issue:
                     <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
                 </div>
             </div>
-
-```
-
-In the above code, we've changed the `action` attribute of the form to point to a URL that will load the appropriate login or registration page. We're using `.html` extension which is not secure but it's better than writing JavaScript code directly into the HTML.
-
-By making this change, you ensure that no `javascript:` code is executed when the form is submitted, mitigating the potential security vulnerability related to eval(). Remember to use proper input validation and sanitization on server-side processing before executing any user-supplied data in your application's logic. Additionally, consider using a more secure approach like HTTPS for all forms and pages that handle sensitive information.
-
-Always ensure that you have proper security measures in place to protect against common web vulnerabilities such as cross-site scripting (XSS) or SQL injection attacks. Regularly review and update your code with the latest best practices and security guidelines provided by industry experts and organizations like OWASP (Open Web Application Security Project).
-
 Remember, this code fix is a simple example to address a specific security issue related to using 'javascript:' code in an HTML form tag. In practice, you should implement additional security measures, such as input validation, sanitization, and proper handling of user-supplied data on both the client-side and server-side of your application.
 
 If you need further assistance or have any other security-related questions, feel free to ask. My expertise lies in software development and I'm always happy to help with code reviews and security assessments.
@@ -405,6 +392,16 @@ Here is the modified code that addresses the security hotspot issue:
                         </div> :
                         <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
                             <h2 className="text-center mb-4">Login Your Account</h2>
+<label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
+                                    </div>
+                                </div>
+                                <p className="text-danger">{showError ? registerFormError : null}</p>
+                                <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleCreateAccountBtn}><b>Create an Account</b></button>
+                            </form>
+                            <p className="m-0">Already have an account? <span className="cursor-pointer text-warning" onClick={this.handleForms}>Login Here</span></a></p>
+                        </div> :
+                        <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                            <h2 className="text-center mb-4">Login Your Account</h2>
                             <form action="/login" method="post">
                                 <input type="hidden" name="csrftoken" value={this.state.csrftoken} />
                                 <div className="form-group">
@@ -413,19 +410,6 @@ Here is the modified code that addresses the security hotspot issue:
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="userLoginPassword">Password</label>
-                                    <input type="password" className="form-control" id="userLoginPassword" placeholder="Password" onChange={(e) => this.setState({ userLoginPassword: e.target.value })} />
-                                </div>
-                                <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleLoginNowBtn}><b>Login Now</b></button>
-                            </form>
-```
-
-I have made the following changes to fix the security hotspot issue:
-
-1. Changed the action of the login form from `javascript:void(0)` to `/login`. This ensures that the user is directed to a legitimate page when they click the Login button.
-
-2. Added an input element with the name `csrftoken` and set its value to be whatever you have as the current CSRF token for this session. This protects against cross-site request forgery (CSRF) attacks by ensuring that any login requests must include a valid token associated with the user's session.
-
-3. Changed the closing tag of `<p>` at the end from `</p>` to `</a>`, since it was missing an opening `<a>` tag before. This ensures that when the user clicks "Login Here," they are directed to the login page as intended.
 
 Please note that I'm assuming you have a way to generate and verify CSRF tokens, which is not shown in this snippet. If you don't have such functionality implemented yet, now would be a good time to add it to prevent CSRF attacks on your site.
 ```
