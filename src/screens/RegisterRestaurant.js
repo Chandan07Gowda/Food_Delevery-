@@ -68,27 +68,28 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
-    }
+this.setState({
+    showError: true,
+    registerFormError: "Please enter a valid email address.",
+    userEmail: ""
+});
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+const userPassword = e;
+// Fixed regex to avoid super-linear runtime due to backtracking
+const userPasswordFormate = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{10,}$/;
+
+if (userPassword.match(userPasswordFormate)) {
+    this.setState({
+        showError: false,
+        registerFormError: "",
+        userPassword: userPassword,
+    });
+} else {
+    this.setState({
+        showError: true,
+        registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
                 userPassword: "",
             });
         }
@@ -201,27 +202,19 @@ export default class RegisterRestaurant extends Component {
             this.setState({
                 userTNC: false,
                 showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        }
-    }
+const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
-    async handleCreateAccountBtn() {
-        const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
-
-        // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
-        const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
-        const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
-        const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
-
-        if (!userName.match(userNameFormate)) {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid name.",
-            });
-        } else if (!userEmail.match(userEmailFormate)) {
+if (!userName.match(userNameFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid name.",
+    });
+} else if (!userEmail.match(userEmailFormate)) {
+    this.setState({
             this.setState({
                 showError: true,
                 registerFormError: "Please enter a valid email address.",
@@ -307,6 +300,11 @@ Here is the fixed code with the 'javascript:' removed:
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
+html
+{ /* <Navbar history={this.props.history} /> */ }
+                        <Navbar2 history={this.props.history} />
+                        <div className="container register-cont1-text">
+                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
                         </div>
                     </div>
                 </div>
@@ -321,13 +319,6 @@ Here is the fixed code with the 'javascript:' removed:
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userEmail">Email</label>
-                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
-                                </div>
-                            </div>
-```
-
-The main issue was the 'action' attribute of the form tag pointing to a JavaScript URI, which can be used for security vulnerabilities like XSS (Cross-Site Scripting). To fix this, we changed the action to "#register" and kept it as an HTML form submission. This ensures that the form data is sent to the server-side script responsible for handling the registration process.
-
 Please note that this code does not include any validation logic or other functionalities that may be needed in a real-world scenario. It's just meant to address the security issue of using 'javascript:' in the form action attribute.
                             <div className="form-row">
                                 <div className="form-group col-md-6">
