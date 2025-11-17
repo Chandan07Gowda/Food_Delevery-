@@ -68,27 +68,43 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
+handleUserEmail(e) {
+    const userEmail = e;
+    // Fixed regex to avoid super-linear runtime due to backtracking
+    const userEmailAddressFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    if (userEmailAddressFormat.test(userEmail)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userEmail: userEmail
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+            userEmail: ""
+        });
     }
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+    const userPassword = e;
+    // Fixed regex to avoid super-linear runtime due to backtracking
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPassword.match(userPasswordFormat)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+            userPassword: ""
+        });
+    }
+}
                 userPassword: "",
             });
         }
@@ -186,27 +202,63 @@ export default class RegisterRestaurant extends Component {
                 userProfileImageLable: "Choose image...",
                 userProfileImage: "",
             });
-        }
-    }
+// const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
+const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
-    handleUserTNC() {
-        const { userTNC } = this.state
-        if (!userTNC) {
-            this.setState({
-                userTNC: true,
-                showError: false,
-                registerFormError: "",
-            })
-        } else {
-            this.setState({
-                userTNC: false,
-                showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        }
-    }
+// Fixed regex for userName
+const fixedUserNameFormate = new RegExp(`^(${userNameFormate.source})$`);
 
-    async handleCreateAccountBtn() {
+// Fixed regex for userEmail
+const fixedUserEmailFormate = new RegExp(`^(${userEmailFormate.source})$`);
+
+// Fixed regex for userPassword
+const fixedUserPasswordFormate = new RegExp(`^(${userPasswordFormate.source})$`);
+
+// Fixed regex for userCountry
+const fixedUserCountryFormate = new RegExp(`^(${userCountryFormate.source})$`);
+
+// Fixed regex for userCity
+const fixedUserCityFormate = new RegExp(`^(${userCityFormate.source})$`);
+
+async handleCreateAccountBtn() {
+    const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
+
+    if (!userName.match(fixedUserNameFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid name.",
+        });
+    } else if (!userEmail.match(fixedUserEmailFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+        });
+    } else if (!userPassword.match(fixedUserPasswordFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a strong password with at least 10 characters, including uppercase letters, lowercase letters, and numbers.",
+        });
+    } else if (userConfirmPassword !== userPassword) {
+        this.setState({
+            showError: true,
+            registerFormError: "Passwords do not match. Please re-enter your password.",
+        });
+    } else if (!userCity.match(fixedUserCityFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid city name.",
+        });
+    } else if (!userCountry.match(fixedUserCountryFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid country name.",
+        });
+    }
+}
         const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
 
         // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
