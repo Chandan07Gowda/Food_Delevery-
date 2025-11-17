@@ -68,27 +68,43 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
+handleUserEmail(e) {
+    const userEmail = e;
+    // Fixed regex to avoid super-linear runtime due to backtracking
+    const userEmailAddressFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (userEmailAddressFormat.test(userEmail)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userEmail: userEmail
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+            userEmail: ""
+        });
     }
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+    const userPassword = e;
+    // Fixed regex to avoid super-linear runtime due to backtracking
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPassword.match(userPasswordFormat)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+            userPassword: ""
+        });
+    }
+}
                 userPassword: "",
             });
         }
@@ -284,27 +300,88 @@ export default class RegisterRestaurant extends Component {
                 isRestaurant: true,
                 propsHistory: this.props.history,
                 typeOfFood: ['Apple Juice', 'Beef Roast', 'Cheese Burger']
-            }
-            try {
-                const signUpReturn = await signUp(userDetails)
-                // console.log(signUpReturn)
-            } catch (error) {
-                console.log("Error in Register Restaurant => ",error)
-            }
-        }
-    }
-
-    render() {
-        const { showError, registerFormError, userProfileImageLable, userTNC, userGender } = this.state;
-        return (
-            <div>
-                <div className="container-fluid register-cont1">
-                    <div className="">
-Here is the fixed code with the 'javascript:' removed:
-
-```html
+html
 { /* <Navbar history={this.props.history} /> */ }
                         <Navbar2 history={this.props.history} />
+                        <div className="container register-cont1-text">
+                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
+                        </div>
+                    </div>
+                </div>
+                <div className="container-fluid py-5 bg-light">
+                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                        <h2 className="text-center mb-4">Register Restaurant</h2>
+                        <form action="#register" method="post">
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userFullName">Full Name</label>
+                                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userEmail">Email</label>
+                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPassword">Password</label>
+                                    <input type="password" className="form-control" id="userPassword" placeholder="Password" onKeyUp={(e) => this.handleUserPassword(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="confirmPassword">Confirm Password</label>
+                                    <input type="password" className="form-control" id="confirmPassword" placeholder="Confirm Password" onKeyUp={(e) => this.handleUserConfirmPassword(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPhone">Phone Number</label>
+                                    <input type="tel" className="form-control" id="userPhone" placeholder="Phone Number" onKeyUp={(e) => this.handleUserPhone(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userAddress">Address</label>
+                                    <input type="text" className="form-control" id="userAddress" placeholder="Address" onKeyUp={(e) => this.handleUserAddress(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantName">Restaurant Name</label>
+                                    <input type="text" className="form-control" id="restaurantName" placeholder="Restaurant Name" onKeyUp={(e) => this.handleRestaurantName(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantEmail">Restaurant Email</label>
+                                    <input type="email" className="form-control" id="restaurantEmail" placeholder="Restaurant Email" onKeyUp={(e) => this.handleRestaurantEmail(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantPassword">Restaurant Password</label>
+                                    <input type="password" className="form-control" id="restaurantPassword" placeholder="Restaurant Password" onKeyUp={(e) => this.handleRestaurantPassword(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="confirmRestaurantPassword">Confirm Restaurant Password</label>
+                                    <input type="password" className="form-control" id="confirmRestaurantPassword" placeholder="Confirm Restaurant Password" onKeyUp={(e) => this.handleRestaurantConfirmPassword(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantPhone">Restaurant Phone Number</label>
+                                    <input type="tel" className="form-control" id="restaurantPhone" placeholder="Restaurant Phone Number" onKeyUp={(e) => this.handleRestaurantPhone(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantAddress">Restaurant Address</label>
+                                    <input type="text" className="form-control" id="restaurantAddress" placeholder="Restaurant Address" onKeyUp={(e) => this.handleRestaurantAddress(e.target.value)} />
+                                </div>
+                            </div>
+                            <button type="submit" className="btn btn-primary btn-block">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default Register;
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
                         </div>
