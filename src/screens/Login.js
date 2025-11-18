@@ -80,27 +80,43 @@ export default class Login extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
+handleUserEmail(e) {
+    const userEmail = e;
+    // Fixed regex to avoid super-linear runtime due to backtracking
+    const userEmailAddressFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    if (userEmailAddressFormat.test(userEmail)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userEmail: userEmail
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+            userEmail: ""
+        });
     }
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+    const userPassword = e;
+    // Fixed regex to avoid super-linear runtime due to backtracking
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPassword.match(userPasswordFormat)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+            userPassword: ""
+        });
+    }
+}
                 userPassword: "",
             });
         }
@@ -312,27 +328,21 @@ export default class Login extends Component {
             userLoginEmail: userLoginEmail,
             userLoginPassword: userLoginPassword,
             propsHistory: this.props.history,
-        }
-        try {
-            const LoginReturn = await logIn(userLoginDetails)
-            // console.log(LoginReturn)
-        }catch(error){
-            console.log("Error in Login => ",error)
-        }
-    }
-
-    render() {
-        const { isRegisterForm, showError, registerFormError, userProfileImageLable, userTNC, userGender } = this.state;
-        return (
-            <div>
-                <div className="container-fluid register-cont1">
-                    <div className="">
-                        {/* <Navbar history={this.props.history} /> */}
-To address the security issue related to using 'javascript:' code in an HTML form tag, we can use a more secure alternative like using the `href` attribute with a URL that will load the appropriate login or registration page. We should avoid writing JavaScript code directly into the HTML since it can lead to security vulnerabilities.
-
-Here's how you can fix the code to address the security hotspot issue:
-
-```html
+html
+{isRegisterForm ?
+    <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
+        <h2 className="text-center mb-4">Create an Account</h2>
+        <form action="register.html" method="post">
+            <div className="form-row">
+                <div className="form-group col-md-6">
+                    <label htmlFor="userFullName">Full Name</label>
+                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+                </div>
+                <div className="form-group col-md-6">
+                    <label htmlFor="userEmail">Email</label>
+                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                </div>
+            </div>
 {isRegisterForm ?
     <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
         <h2 className="text-center mb-4">Create an Account</h2>
@@ -382,27 +392,67 @@ If you need further assistance or have any other security-related questions, fee
                                 <div className="form-row">
                                     <div className="form-group col-md-4">
                                         <label htmlFor="userGender">Gender</label>
-                                        <select id="userGender" className="form-control" value={userGender} onChange={this.handleUserGender}>
-                                            <option defaultValue>Male</option>
-                                            <option>Female</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-md-2">
-                                        <label htmlFor="userAge">Age</label>
-                                        <input type="number" className="form-control" id="userAge" onKeyUp={(e) => this.handleUserAge(e.target.value)} />
-                                    </div>
-                                    <div className="form-group col-md-6">
-Here is the modified code that addresses the security hotspot issue:
-
-```jsx
 <label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
                                     </div>
                                 </div>
                                 <p className="text-danger">{showError ? registerFormError : null}</p>
                                 <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleCreateAccountBtn}><b>Create an Account</b></button>
                             </form>
-                            <p className="m-0">Already have an account? <span className="cursor-pointer text-warning" onClick={this.handleForms}>Login Here</span></a></p>
-                        </div> :
+                            {showLogin ? (
+                                <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                                    <h2 className="text-center mb-4">Login Your Account</h2>
+                                    <form action="/login" method="post">
+                                        <input type="hidden" name="csrftoken" value={this.state.csrftoken} />
+                                        <div className="form-group">
+                                            <label htmlFor="userLoginEmail">Email</label>
+                                            <input type="email" className="form-control" id="userLoginEmail" placeholder="Email" onChange={(e) => this.setState({ userLoginEmail: e.target.value })} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="userLoginPassword">Password</label>
+                                            <input type="password" className="form-control" id="userLoginPassword" placeholder="Password" onChange={(e) => this.setState({ userLoginPassword: e.target.value })} />
+                                        </div>
+                                        <button type="submit" className="btn btn-warning text-uppercase mb-3"><b>Login</b></button>
+                                    </form>
+                                </div> :
+                                <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                                    <h2 className="text-center mb-4">Create an Account</h2>
+                                    <form action="/register" method="post">
+                                        <input type="hidden" name="csrftoken" value={this.state.csrftoken} />
+                                        <div className="form-group">
+                                            <label htmlFor="userRegisterEmail">Email</label>
+                                            <input type="email" className="form-control" id="userRegisterEmail" placeholder="Email" onChange={(e) => this.setState({ userRegisterEmail: e.target.value })} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="userRegisterPassword">Password</label>
+                                            <input type="password" className="form-control" id="userRegisterPassword" placeholder="Password" onChange={(e) => this.setState({ userRegisterPassword: e.target.value })} />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="userTNC">Accept Terms and Conditions</label>
+                                            <input type="checkbox" className="custom-control-input" id="userTNC" onChange={(e) => this.setState({ userTNC: e.target.checked })} />
+                                            <label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
+                                        </div>
+                                        <p className="text-danger">{showError ? registerFormError : null}</p>
+                                        <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleCreateAccountBtn}><b>Create an Account</b></button>
+                                    </form>
+                                </div> }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div className="container-fluid">
+                {this.renderContent()}
+            </div>
+        );
+    }
+}
+
+export default LoginRegister;
                         <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
                             <h2 className="text-center mb-4">Login Your Account</h2>
                             <form action="/login" method="post">
