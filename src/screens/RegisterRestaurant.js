@@ -68,27 +68,41 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
+handleUserEmail(e) {
+    const userEmail = e;
+    const userEmailAddressFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (userEmailAddressFormat.test(userEmail)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userEmail: userEmail,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+            userEmail: ""
+        });
     }
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+    const userPassword = e;
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPasswordFormat.test(userPassword)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+            userPassword: ""
+        });
+    }
+}
                 userPassword: "",
             });
         }
@@ -188,27 +202,54 @@ export default class RegisterRestaurant extends Component {
             });
         }
     }
+// const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
+const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
-    handleUserTNC() {
-        const { userTNC } = this.state
-        if (!userTNC) {
-            this.setState({
-                userTNC: true,
-                showError: false,
-                registerFormError: "",
-            })
-        } else {
-            this.setState({
-                userTNC: false,
-                showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        }
-    }
+// Fixed regex for userName
+const fixedUserNameFormate = new RegExp(`^([A-Za-z.\s_-]).{5,}$`);
 
-    async handleCreateAccountBtn() {
-        const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
+// Fixed regex for userEmail
+const fixedUserEmailFormate = new RegExp(`^(([^<>()\\[\\\\]\\.,;:\\s@"]+(\\.[^<>()\\[\\\\]\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$`);
 
+// Fixed regex for userPassword
+const fixedUserPasswordFormate = new RegExp(`(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{10,}`);
+
+// Fixed regex for userCountry
+const fixedUserCountryFormate = new RegExp(`^([A-Za-z.\s_-]).{5,}$`);
+
+// Fixed regex for userCity
+const fixedUserCityFormate = new RegExp(`^([A-Za-z.\s_-]).{5,}$`);
+
+if (!userName.match(fixedUserNameFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid name.",
+    });
+} else if (!userEmail.match(fixedUserEmailFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid email address.",
+    });
+} else if (!userPassword.match(fixedUserPasswordFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid password with at least 10 characters, including digits, lowercase and uppercase letters.",
+    });
+} else if (!userCountry.match(fixedUserCountryFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid country name.",
+    });
+} else if (!userCity.match(fixedUserCityFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid city name.",
+    });
+}
         // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
         const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
