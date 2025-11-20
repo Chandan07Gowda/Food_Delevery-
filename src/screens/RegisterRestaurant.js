@@ -68,27 +68,41 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
+handleUserEmail(e) {
+    const userEmail = e;
+    const userEmailAddressFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (userEmailAddressFormat.test(userEmail)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userEmail: userEmail,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+            userEmail: ""
+        });
     }
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+    const userPassword = e;
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPasswordFormat.test(userPassword)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+            userPassword: ""
+        });
+    }
+}
                 userPassword: "",
             });
         }
@@ -188,27 +202,54 @@ export default class RegisterRestaurant extends Component {
             });
         }
     }
+// const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
+const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
+const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
-    handleUserTNC() {
-        const { userTNC } = this.state
-        if (!userTNC) {
-            this.setState({
-                userTNC: true,
-                showError: false,
-                registerFormError: "",
-            })
-        } else {
-            this.setState({
-                userTNC: false,
-                showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        }
-    }
+// Fixed regex for userName
+const fixedUserNameFormate = new RegExp(`^([A-Za-z.\s_-]).{5,}$`);
 
-    async handleCreateAccountBtn() {
-        const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
+// Fixed regex for userEmail
+const fixedUserEmailFormate = new RegExp(`^(([^<>()\\[\\\\]\\.,;:\\s@"]+(\\.[^<>()\\[\\\\]\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$`);
 
+// Fixed regex for userPassword
+const fixedUserPasswordFormate = new RegExp(`(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{10,}`);
+
+// Fixed regex for userCountry
+const fixedUserCountryFormate = new RegExp(`^([A-Za-z.\s_-]).{5,}$`);
+
+// Fixed regex for userCity
+const fixedUserCityFormate = new RegExp(`^([A-Za-z.\s_-]).{5,}$`);
+
+if (!userName.match(fixedUserNameFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid name.",
+    });
+} else if (!userEmail.match(fixedUserEmailFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid email address.",
+    });
+} else if (!userPassword.match(fixedUserPasswordFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid password with at least 10 characters, including digits, lowercase and uppercase letters.",
+    });
+} else if (!userCountry.match(fixedUserCountryFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid country name.",
+    });
+} else if (!userCity.match(fixedUserCityFormate)) {
+    this.setState({
+        showError: true,
+        registerFormError: "Please enter a valid city name.",
+    });
+}
         // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
         const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -259,27 +300,108 @@ export default class RegisterRestaurant extends Component {
             });
         } else if (userProfileImage == null) {
             this.setState({
-                showError: true,
-                registerFormError: "Please select a profile image.",
-                userProfileImageLable: "Choose image...",
-                userProfileImage: "",
-            });
-        } else if (!userTNC) {
-            this.setState({
-                userTNC: false,
-                showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        } else {
-            // console.log(userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC)
-            const userDetails = {
-                userName: userName,
-                userEmail: userEmail,
-                userPassword: userPassword,
-                userCity: userCity,
-                userCountry: userCountry,
-                userGender: userGender,
-                userAge: userAge,
+html
+{ /* <Navbar history={this.props.history} /> */ }
+                        <Navbar2 history={this.props.history} />
+                        <div className="container register-cont1-text">
+                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
+                        </div>
+                    </div>
+                </div>
+                <div className="container-fluid py-5 bg-light">
+                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                        <h2 className="text-center mb-4">Register Restaurant</h2>
+                        <form action="#register" method="post">
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userFullName">Full Name</label>
+                                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userEmail">Email</label>
+                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPassword">Password</label>
+                                    <input type="password" className="form-control" id="userPassword" placeholder="Password" onKeyUp={(e) => this.handleUserPassword(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userConfirmPassword">Confirm Password</label>
+                                    <input type="password" className="form-control" id="userConfirmPassword" placeholder="Confirm Password" onKeyUp={(e) => this.handleUserConfirmPassword(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPhone">Phone</label>
+                                    <input type="tel" className="form-control" id="userPhone" placeholder="Phone" onKeyUp={(e) => this.handleUserPhone(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userAddress">Address</label>
+                                    <input type="text" className="form-control" id="userAddress" placeholder="Address" onKeyUp={(e) => this.handleUserAddress(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userCity">City</label>
+                                    <input type="text" className="form-control" id="userCity" placeholder="City" onKeyUp={(e) => this.handleUserCity(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userState">State</label>
+                                    <input type="text" className="form-control" id="userState" placeholder="State" onKeyUp={(e) => this.handleUserState(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userZip">Zip</label>
+                                    <input type="text" className="form-control" id="userZip" placeholder="Zip" onKeyUp={(e) => this.handleUserZip(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userCountry">Country</label>
+                                    <input type="text" className="form-control" id="userCountry" placeholder="Country" onKeyUp={(e) => this.handleUserCountry(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userRestaurantName">Restaurant Name</label>
+                                    <input type="text" className="form-control" id="userRestaurantName" placeholder="Restaurant Name" onKeyUp={(e) => this.handleUserRestaurantName(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userRestaurantAddress">Restaurant Address</label>
+                                    <input type="text" className="form-control" id="userRestaurantAddress" placeholder="Restaurant Address" onKeyUp={(e) => this.handleUserRestaurantAddress(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userRestaurantCity">Restaurant City</label>
+                                    <input type="text" className="form-control" id="userRestaurantCity" placeholder="Restaurant City" onKeyUp={(e) => this.handleUserRestaurantCity(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userRestaurantState">Restaurant State</label>
+                                    <input type="text" className="form-control" id="userRestaurantState" placeholder="Restaurant State" onKeyUp={(e) => this.handleUserRestaurantState(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userRestaurantZip">Restaurant Zip</label>
+                                    <input type="text" className="form-control" id="userRestaurantZip" placeholder="Restaurant Zip" onKeyUp={(e) => this.handleUserRestaurantZip(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userRestaurantCountry">Restaurant Country</label>
+                                    <input type="text" className="form-control" id="userRestaurantCountry" placeholder="Restaurant Country" onKeyUp={(e) => this.handleUserRestaurantCountry(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-primary btn-block">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                 userProfileImage: userProfileImage,
                 isRestaurant: true,
                 propsHistory: this.props.history,
