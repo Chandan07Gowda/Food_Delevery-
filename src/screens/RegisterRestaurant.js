@@ -300,9 +300,7 @@ export default class RegisterRestaurant extends Component {
             <div>
                 <div className="container-fluid register-cont1">
                     <div className="">
-Here is the fixed code with the 'javascript:' removed:
-
-```html
+html
 { /* <Navbar history={this.props.history} /> */ }
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
@@ -321,6 +319,58 @@ Here is the fixed code with the 'javascript:' removed:
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userEmail">Email</label>
+                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPassword">Password</label>
+                                    <input type="password" className="form-control" id="userPassword" placeholder="Password" onKeyUp={(e) => this.handleUserPassword(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userConfirmPassword">Confirm Password</label>
+                                    <input type="password" className="form-control" id="userConfirmPassword" placeholder="Confirm Password" onKeyUp={(e) => this.handleUserConfirmPassword(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantName">Restaurant Name</label>
+                                    <input type="text" className="form-control" id="restaurantName" placeholder="Restaurant Name" onKeyUp={(e) => this.handleRestaurantName(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantAddress">Restaurant Address</label>
+                                    <input type="text" className="form-control" id="restaurantAddress" placeholder="Restaurant Address" onKeyUp={(e) => this.handleRestaurantAddress(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantPhone">Restaurant Phone</label>
+                                    <input type="text" className="form-control" id="restaurantPhone" placeholder="Restaurant Phone" onKeyUp={(e) => this.handleRestaurantPhone(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantEmail">Restaurant Email</label>
+                                    <input type="email" className="form-control" id="restaurantEmail" placeholder="Restaurant Email" onKeyUp={(e) => this.handleRestaurantEmail(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantPassword">Restaurant Password</label>
+                                    <input type="password" className="form-control" id="restaurantPassword" placeholder="Restaurant Password" onKeyUp={(e) => this.handleRestaurantPassword(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="restaurantConfirmPassword">Confirm Restaurant Password</label>
+                                    <input type="password" className="form-control" id="restaurantConfirmPassword" placeholder="Confirm Restaurant Password" onKeyUp={(e) => this.handleRestaurantConfirmPassword(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-primary btn-block">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
                                     <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
                                 </div>
                             </div>
