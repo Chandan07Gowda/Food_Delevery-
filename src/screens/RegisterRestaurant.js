@@ -68,27 +68,41 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
+handleUserEmail(e) {
+    const userEmail = e;
+    const userEmailFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (userEmail.match(userEmailFormat)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userEmail: userEmail,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+            userEmail: ""
+        });
     }
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+    const userPassword = e;
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPassword.match(userPasswordFormat)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+            userPassword: ""
+        });
+    }
+}
                 userPassword: "",
             });
         }
@@ -188,27 +202,27 @@ export default class RegisterRestaurant extends Component {
             });
         }
     }
-
-    handleUserTNC() {
-        const { userTNC } = this.state
-        if (!userTNC) {
-            this.setState({
-                userTNC: true,
-                showError: false,
-                registerFormError: "",
-            })
-        } else {
-            this.setState({
-                userTNC: false,
-                showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
+})
         }
     }
 
     async handleCreateAccountBtn() {
         const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
 
+        // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
+        const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
+        const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
+        const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
+
+        if (!userName.match(userNameFormate)) {
+            this.setState({
+                showError: true,
+                registerFormError: "Please enter a valid name.",
+            });
+        } else if (!userEmail.match(userEmailFormate)) {
+            this.setState({
         // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
         const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -286,27 +300,78 @@ export default class RegisterRestaurant extends Component {
                 typeOfFood: ['Apple Juice', 'Beef Roast', 'Cheese Burger']
             }
             try {
-                const signUpReturn = await signUp(userDetails)
-                // console.log(signUpReturn)
-            } catch (error) {
-                console.log("Error in Register Restaurant => ",error)
-            }
-        }
-    }
-
-    render() {
-        const { showError, registerFormError, userProfileImageLable, userTNC, userGender } = this.state;
-        return (
-            <div>
-                <div className="container-fluid register-cont1">
-                    <div className="">
-Here is the fixed code with the 'javascript:' removed:
-
-```html
+html
 { /* <Navbar history={this.props.history} /> */ }
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
                             <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
+                        </div>
+                    </div>
+                </div>
+                <div className="container-fluid py-5 bg-light">
+                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                        <h2 className="text-center mb-4">Register Restaurant</h2>
+                        <form action="#register" method="post">
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userFullName">Full Name</label>
+                                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userEmail">Email</label>
+                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPassword">Password</label>
+                                    <input type="password" className="form-control" id="userPassword" placeholder="Password" onKeyUp={(e) => this.handleUserPassword(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userConfirmPassword">Confirm Password</label>
+                                    <input type="password" className="form-control" id="userConfirmPassword" placeholder="Confirm Password" onKeyUp={(e) => this.handleUserConfirmPassword(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPhone">Phone</label>
+                                    <input type="tel" className="form-control" id="userPhone" placeholder="Phone" onKeyUp={(e) => this.handleUserPhone(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userAddress">Address</label>
+                                    <input type="text" className="form-control" id="userAddress" placeholder="Address" onKeyUp={(e) => this.handleUserAddress(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userCity">City</label>
+                                    <input type="text" className="form-control" id="userCity" placeholder="City" onKeyUp={(e) => this.handleUserCity(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userState">State</label>
+                                    <input type="text" className="form-control" id="userState" placeholder="State" onKeyUp={(e) => this.handleUserState(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userZip">Zip</label>
+                                    <input type="text" className="form-control" id="userZip" placeholder="Zip" onKeyUp={(e) => this.handleUserZip(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userCountry">Country</label>
+                                    <input type="text" className="form-control" id="userCountry" placeholder="Country" onKeyUp={(e) => this.handleUserCountry(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-primary btn-block">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                         </div>
                     </div>
                 </div>
