@@ -80,27 +80,41 @@ export default class Login extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
+handleUserEmail(e) {
+    const userEmail = e;
+    const userEmailAddressFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (userEmailAddressFormat.test(userEmail)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userEmail: userEmail,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+            userEmail: ""
+        });
     }
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+    const userPassword = e;
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPasswordFormat.test(userPassword)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+            userPassword: ""
+        });
+    }
+}
                 userPassword: "",
             });
         }
@@ -200,27 +214,48 @@ export default class Login extends Component {
             });
         }
     }
+async handleCreateAccountBtn() {
+    const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
 
-    handleUserTNC() {
-        const { userTNC } = this.state
-        if (!userTNC) {
-            this.setState({
-                userTNC: true,
-                showError: false,
-                registerFormError: "",
-            })
-        } else {
-            this.setState({
-                userTNC: false,
-                showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        }
-    }
+    // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
+    const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
+    const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+    const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
+    const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
-    async handleCreateAccountBtn() {
-        const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
-
+    if (!userName.match(userNameFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid name.",
+        });
+    } else if (!userEmail.match(userEmailFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email.",
+        });
+    } else if (!userPassword.match(userPasswordFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid password.",
+        });
+    } else if (userPassword !== userConfirmPassword) {
+        this.setState({
+            showError: true,
+            registerFormError: "Passwords do not match.",
+        });
+    } else if (!userCountry.match(userCountryFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid country.",
+        });
+    } else if (!userCity.match(userCityFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid city.",
+        });
+    } else {
+        // Create account logic
         // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
         const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -293,27 +328,21 @@ export default class Login extends Component {
                 userGender: userGender,
                 userAge: userAge,
                 userProfileImage: userProfileImage,
-                isRestaurant: false,
-                propsHistory: this.props.history,
-                typeOfFood: [],
-            }
-            try {
-                const signUpReturn = await signUp(userDetails)
-                // console.log(signUpReturn)
-            }catch(error){
-                console.log("Error in Sign up => ",error)
-            }
-        }
-    }
-
-    async handleLoginNowBtn(){
-        const { userLoginEmail, userLoginPassword } = this.state;
-        const userLoginDetails = {
-            userLoginEmail: userLoginEmail,
-            userLoginPassword: userLoginPassword,
-            propsHistory: this.props.history,
-        }
-        try {
+html
+{isRegisterForm ?
+    <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
+        <h2 className="text-center mb-4">Create an Account</h2>
+        <form action="register.html" method="post">
+            <div className="form-row">
+                <div className="form-group col-md-6">
+                    <label htmlFor="userFullName">Full Name</label>
+                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+                </div>
+                <div className="form-group col-md-6">
+                    <label htmlFor="userEmail">Email</label>
+                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                </div>
+            </div>
             const LoginReturn = await logIn(userLoginDetails)
             // console.log(LoginReturn)
         }catch(error){
@@ -363,27 +392,110 @@ If you need further assistance or have any other security-related questions, fee
                                     <div className="form-group col-md-6">
                                         <label htmlFor="userPassword">Password</label>
                                         <input type="password" className="form-control" id="userPassword" placeholder="Password" onKeyUp={(e) => this.handleUserPassword(e.target.value)} />
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="userConfirmPassword">Confirm Password</label>
-                                        <input type="password" className="form-control" id="userConfirmPassword" placeholder="Password" onKeyUp={(e) => this.handleUserConfirmPassword(e.target.value)} />
+<label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
                                     </div>
                                 </div>
-                                <div className="form-row">
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="userCity">City</label>
-                                        <input type="text" className="form-control" id="userCity" onKeyUp={(e) => this.handleUserCity(e.target.value)} />
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="userCountry">Country</label>
-                                        <input type="text" className="form-control" id="userCountry" onKeyUp={(e) => this.handleUserCountry(e.target.value)} />
+                                <p className="text-danger">{showError ? registerFormError : null}</p>
+                                <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleCreateAccountBtn}><b>Create an Account</b></button>
+                            </form>
+                            <p className="m-0">Already have an account? <span className="cursor-pointer text-warning" onClick={this.handleForms}>Login Here</span></a></p>
+                        </div> :
+                        <div className="col-lg-4 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                            <h2 className="text-center mb-4">Login Your Account</h2>
+                            <form action="/login" method="post">
+                                <input type="hidden" name="csrftoken" value={this.state.csrftoken} />
+                                <div className="form-group">
+                                    <label htmlFor="userLoginEmail">Email</label>
+                                    <input type="email" className="form-control" id="userLoginEmail" placeholder="Email" onChange={(e) => this.setState({ userLoginEmail: e.target.value })} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="userLoginPassword">Password</label>
+                                    <input type="password" className="form-control" id="userLoginPassword" placeholder="Password" onChange={(e) => this.setState({ userLoginPassword: e.target.value })} />
+                                </div>
+                                <div className="form-group">
+                                    <div className="custom-control custom-checkbox">
+                                        <input type="checkbox" className="custom-control-input" id="userLoginTNC" name="userLoginTNC" onChange={(e) => this.setState({ userLoginTNC: e.target.checked })} />
+                                        <label className="custom-control-label" htmlFor="userLoginTNC">Accept Terms and Conditions</label>
                                     </div>
                                 </div>
-                                <div className="form-row">
-                                    <div className="form-group col-md-4">
-                                        <label htmlFor="userGender">Gender</label>
-                                        <select id="userGender" className="form-control" value={userGender} onChange={this.handleUserGender}>
-                                            <option defaultValue>Male</option>
+                                <p className="text-danger">{showError ? loginFormError : null}</p>
+                                <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleLoginBtn}><b>Login</b></button>
+                            </form>
+                            <p className="m-0">Don't have an account? <span className="cursor-pointer text-warning" onClick={this.handleForms}>Register Here</span></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+handleCreateAccountBtn = (e) => {
+    e.preventDefault();
+    if (!this.state.userRegisterEmail || !this.state.userRegisterPassword || !this.state.userRegisterTNC) {
+        this.setState({ showError: true, registerFormError: 'Please fill all the fields' });
+    } else {
+        const data = {
+            email: this.state.userRegisterEmail,
+            password: this.state.userRegisterPassword,
+            tnc: this.state.userRegisterTNC
+        };
+        fetch('/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    this.setState({ showError: true, registerFormError: data.error });
+                } else {
+                    this.setState({ showError: false, registerFormError: null });
+                    this.props.history.push('/login');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                this.setState({ showError: true, registerFormError: 'Something went wrong' });
+            });
+    }
+};
+
+handleLoginBtn = (e) => {
+    e.preventDefault();
+    if (!this.state.userLoginEmail || !this.state.userLoginPassword || !this.state.userLoginTNC) {
+        this.setState({ showError: true, loginFormError: 'Please fill all the fields' });
+    } else {
+        const data = {
+            email: this.state.userLoginEmail,
+            password: this.state.userLoginPassword,
+            tnc: this.state.userLoginTNC
+        };
+        fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    this.setState({ showError: true, loginFormError: data.error });
+                } else {
+                    this.setState({ showError: false, loginFormError: null });
+                    this.props.history.push('/dashboard');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                this.setState({ showError: true, loginFormError: 'Something went wrong' });
+            });
+    }
+};
+
+handleForms = (e) => {
+    e.preventDefault();
+    this.setState({ formType: this.state.formType === 'login' ? 'register' : 'login' });
+};
                                             <option>Female</option>
                                         </select>
                                     </div>
