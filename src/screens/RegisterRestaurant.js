@@ -68,27 +68,41 @@ export default class RegisterRestaurant extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
+handleUserEmail(e) {
+    const userEmail = e;
+    const userEmailAddressFormat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (userEmailAddressFormat.test(userEmail)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userEmail: userEmail,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email address.",
+            userEmail: ""
+        });
     }
+}
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+handleUserPassword(e) {
+    const userPassword = e;
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPasswordFormat.test(userPassword)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+            userPassword: ""
+        });
+    }
+}
                 userPassword: "",
             });
         }
@@ -188,27 +202,50 @@ export default class RegisterRestaurant extends Component {
             });
         }
     }
+async handleCreateAccountBtn() {
+    const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
 
-    handleUserTNC() {
-        const { userTNC } = this.state
-        if (!userTNC) {
-            this.setState({
-                userTNC: true,
-                showError: false,
-                registerFormError: "",
-            })
-        } else {
-            this.setState({
-                userTNC: false,
-                showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        }
+    // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
+    const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
+    const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+    const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
+    const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
+
+    if (!userName.match(userNameFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid name.",
+        });
+    } else if (!userEmail.match(userEmailFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid email.",
+        });
+    } else if (!userPassword.match(userPasswordFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid password.",
+        });
+    } else if (userPassword !== userConfirmPassword) {
+        this.setState({
+            showError: true,
+            registerFormError: "Passwords do not match.",
+        });
+    } else if (!userCountry.match(userCountryFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid country.",
+        });
+    } else if (!userCity.match(userCityFormate)) {
+        this.setState({
+            showError: true,
+            registerFormError: "Please enter a valid city.",
+        });
+    } else {
+        // Create account logic here
     }
-
-    async handleCreateAccountBtn() {
-        const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
-
+}
         // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
         const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -263,27 +300,437 @@ export default class RegisterRestaurant extends Component {
                 registerFormError: "Please select a profile image.",
                 userProfileImageLable: "Choose image...",
                 userProfileImage: "",
-            });
-        } else if (!userTNC) {
-            this.setState({
-                userTNC: false,
-                showError: true,
-                registerFormError: "Please accept terms and conditions.",
-            })
-        } else {
-            // console.log(userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC)
-            const userDetails = {
-                userName: userName,
-                userEmail: userEmail,
-                userPassword: userPassword,
-                userCity: userCity,
-                userCountry: userCountry,
-                userGender: userGender,
-                userAge: userAge,
-                userProfileImage: userProfileImage,
-                isRestaurant: true,
-                propsHistory: this.props.history,
-                typeOfFood: ['Apple Juice', 'Beef Roast', 'Cheese Burger']
+Here is the fixed code with the 'javascript:' removed:
+
+```html
+{ /* <Navbar history={this.props.history} /> */ }
+                        <Navbar2 history={this.props.history} />
+                        <div className="container register-cont1-text">
+                            <h1 className="text-uppercase text-white text-center mb-4"><strong>Register User And Add Restaurant</strong></h1>
+                        </div>
+                    </div>
+                </div>
+                <div className="container-fluid py-5 bg-light">
+                    <div className="col-lg-6 col-md-6 col-sm-12 mx-auto bg-white shadow p-4">
+                        <h2 className="text-center mb-4">Register Restaurant</h2>
+                        <form action="#register" method="post">
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userFullName">Full Name</label>
+                                    <input type="text" className="form-control" id="userName" placeholder="Full Name" onKeyUp={(e) => this.handleUserName(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userEmail">Email</label>
+                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPassword">Password</label>
+                                    <input type="password" className="form-control" id="userPassword" placeholder="Password" onKeyUp={(e) => this.handleUserPassword(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userConfirmPassword">Confirm Password</label>
+                                    <input type="password" className="form-control" id="userConfirmPassword" placeholder="Confirm Password" onKeyUp={(e) => this.handleUserConfirmPassword(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userPhone">Phone</label>
+                                    <input type="tel" className="form-control" id="userPhone" placeholder="Phone" onKeyUp={(e) => this.handleUserPhone(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userAddress">Address</label>
+                                    <input type="text" className="form-control" id="userAddress" placeholder="Address" onKeyUp={(e) => this.handleUserAddress(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userCity">City</label>
+                                    <input type="text" className="form-control" id="userCity" placeholder="City" onKeyUp={(e) => this.handleUserCity(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userState">State</label>
+                                    <input type="text" className="form-control" id="userState" placeholder="State" onKeyUp={(e) => this.handleUserState(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userZip">Zip</label>
+                                    <input type="text" className="form-control" id="userZip" placeholder="Zip" onKeyUp={(e) => this.handleUserZip(e.target.value)} />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label htmlFor="userCountry">Country</label>
+                                    <input type="text" className="form-control" id="userCountry" placeholder="Country" onKeyUp={(e) => this.handleUserCountry(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantName">Restaurant Name</label>
+                                <input type="text" className="form-control" id="userRestaurantName" placeholder="Restaurant Name" onKeyUp={(e) => this.handleUserRestaurantName(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantAddress">Restaurant Address</label>
+                                <input type="text" className="form-control" id="userRestaurantAddress" placeholder="Restaurant Address" onKeyUp={(e) => this.handleUserRestaurantAddress(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantCity">Restaurant City</label>
+                                <input type="text" className="form-control" id="userRestaurantCity" placeholder="Restaurant City" onKeyUp={(e) => this.handleUserRestaurantCity(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantState">Restaurant State</label>
+                                <input type="text" className="form-control" id="userRestaurantState" placeholder="Restaurant State" onKeyUp={(e) => this.handleUserRestaurantState(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantZip">Restaurant Zip</label>
+                                <input type="text" className="form-control" id="userRestaurantZip" placeholder="Restaurant Zip" onKeyUp={(e) => this.handleUserRestaurantZip(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantCountry">Restaurant Country</label>
+                                <input type="text" className="form-control" id="userRestaurantCountry" placeholder="Restaurant Country" onKeyUp={(e) => this.handleUserRestaurantCountry(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantPhone">Restaurant Phone</label>
+                                <input type="tel" className="form-control" id="userRestaurantPhone" placeholder="Restaurant Phone" onKeyUp={(e) => this.handleUserRestaurantPhone(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantEmail">Restaurant Email</label>
+                                <input type="email" className="form-control" id="userRestaurantEmail" placeholder="Restaurant Email" onKeyUp={(e) => this.handleUserRestaurantEmail(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantPassword">Restaurant Password</label>
+                                <input type="password" className="form-control" id="userRestaurantPassword" placeholder="Restaurant Password" onKeyUp={(e) => this.handleUserRestaurantPassword(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantConfirmPassword">Restaurant Confirm Password</label>
+                                <input type="password" className="form-control" id="userRestaurantConfirmPassword" placeholder="Restaurant Confirm Password" onKeyUp={(e) => this.handleUserRestaurantConfirmPassword(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDescription">Restaurant Description</label>
+                                <textarea className="form-control" id="userRestaurantDescription" rows="3" placeholder="Restaurant Description" onKeyUp={(e) => this.handleUserRestaurantDescription(e.target.value)}></textarea>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantMenu">Restaurant Menu</label>
+                                <textarea className="form-control" id="userRestaurantMenu" rows="3" placeholder="Restaurant Menu" onKeyUp={(e) => this.handleUserRestaurantMenu(e.target.value)}></textarea>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantImage">Restaurant Image</label>
+                                <input type="file" className="form-control-file" id="userRestaurantImage" placeholder="Restaurant Image" onKeyUp={(e) => this.handleUserRestaurantImage(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantOpenTime">Restaurant Open Time</label>
+                                <input type="time" className="form-control" id="userRestaurantOpenTime" placeholder="Restaurant Open Time" onKeyUp={(e) => this.handleUserRestaurantOpenTime(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantCloseTime">Restaurant Close Time</label>
+                                <input type="time" className="form-control" id="userRestaurantCloseTime" placeholder="Restaurant Close Time" onKeyUp={(e) => this.handleUserRestaurantCloseTime(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDelivery">Restaurant Delivery</label>
+                                <input type="text" className="form-control" id="userRestaurantDelivery" placeholder="Restaurant Delivery" onKeyUp={(e) => this.handleUserRestaurantDelivery(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryTime">Restaurant Delivery Time</label>
+                                <input type="time" className="form-control" id="userRestaurantDeliveryTime" placeholder="Restaurant Delivery Time" onKeyUp={(e) => this.handleUserRestaurantDeliveryTime(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryPrice">Restaurant Delivery Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryPrice" placeholder="Restaurant Delivery Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryMin">Restaurant Delivery Min</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryMin" placeholder="Restaurant Delivery Min" onKeyUp={(e) => this.handleUserRestaurantDeliveryMin(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryMax">Restaurant Delivery Max</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryMax" placeholder="Restaurant Delivery Max" onKeyUp={(e) => this.handleUserRestaurantDeliveryMax(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryMinPrice">Restaurant Delivery Min Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryMinPrice" placeholder="Restaurant Delivery Min Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryMinPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryMaxPrice">Restaurant Delivery Max Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryMaxPrice" placeholder="Restaurant Delivery Max Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryMaxPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryArea">Restaurant Delivery Area</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryArea" placeholder="Restaurant Delivery Area" onKeyUp={(e) => this.handleUserRestaurantDeliveryArea(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaPrice">Restaurant Delivery Area Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaPrice" placeholder="Restaurant Delivery Area Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaMin">Restaurant Delivery Area Min</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaMin" placeholder="Restaurant Delivery Area Min" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaMin(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaMax">Restaurant Delivery Area Max</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaMax" placeholder="Restaurant Delivery Area Max" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaMax(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaMinPrice">Restaurant Delivery Area Min Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaMinPrice" placeholder="Restaurant Delivery Area Min Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaMinPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaMaxPrice">Restaurant Delivery Area Max Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaMaxPrice" placeholder="Restaurant Delivery Area Max Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaMaxPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadius">Restaurant Delivery Area Radius</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadius" placeholder="Restaurant Delivery Area Radius" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadius(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusPrice">Restaurant Delivery Area Radius Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusPrice" placeholder="Restaurant Delivery Area Radius Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMin">Restaurant Delivery Area Radius Min</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMin" placeholder="Restaurant Delivery Area Radius Min" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMin(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMax">Restaurant Delivery Area Radius Max</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMax" placeholder="Restaurant Delivery Area Radius Max" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMax(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinPrice">Restaurant Delivery Area Radius Min Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinPrice" placeholder="Restaurant Delivery Area Radius Min Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxPrice">Restaurant Delivery Area Radius Max Price</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxPrice" placeholder="Restaurant Delivery Area Radius Max Price" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxPrice(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder="Restaurant Delivery Area Radius Max Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLng">Restaurant Delivery Area Radius Min Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLng" placeholder="Restaurant Delivery Area Radius Min Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLng">Restaurant Delivery Area Radius Max Longitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLng" placeholder="Restaurant Delivery Area Radius Max Longitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMaxLng(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMinLat">Restaurant Delivery Area Radius Min Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMinLat" placeholder="Restaurant Delivery Area Radius Min Latitude" onKeyUp={(e) => this.handleUserRestaurantDeliveryAreaRadiusMinLat(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="userRestaurantDeliveryAreaRadiusMaxLat">Restaurant Delivery Area Radius Max Latitude</label>
+                                <input type="text" className="form-control" id="userRestaurantDeliveryAreaRadiusMaxLat" placeholder
             }
             try {
                 const signUpReturn = await signUp(userDetails)
