@@ -90,7 +90,7 @@ export default class Login extends Component {
 
     handleUserPassword(e) {
         const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        const userPasswordFormate = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
         if (userPassword.match(userPasswordFormate)) {
             this.setState({
                 showError: false,
@@ -224,7 +224,7 @@ export default class Login extends Component {
         // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
         const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        const userPasswordFormate = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
         const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
