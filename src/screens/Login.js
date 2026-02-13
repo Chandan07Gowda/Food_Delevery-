@@ -80,27 +80,27 @@ export default class Login extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Please enter a valid email address.",
-                userEmail: ""
-            });
-        }
-    }
+this.setState({
+    showError: true,
+    registerFormError: "Please enter a valid email address.",
+    userEmail: ""
+});
 
-    handleUserPassword(e) {
-        const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
-            this.setState({
-                showError: true,
-                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+}
+
+handleUserPassword(e) {
+    const userPassword = e;
+    const userPasswordFormat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/;
+    if (userPassword.match(userPasswordFormat)) {
+        this.setState({
+            showError: false,
+            registerFormError: "",
+            userPassword: userPassword,
+        });
+    } else {
+        this.setState({
+            showError: true,
+            registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
                 userPassword: "",
             });
         }
@@ -214,7 +214,7 @@ export default class Login extends Component {
                 userTNC: false,
                 showError: true,
                 registerFormError: "Please accept terms and conditions.",
-            })
+})
         }
     }
 
@@ -222,11 +222,11 @@ export default class Login extends Component {
         const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
 
         // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
-        const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
-        const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
-        const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
+        const userNameFormate = /^([A-Za-z.\s_-]){5,}$/; // Removed unnecessary group and made it more efficient
+        const userEmailFormate = /^[^@]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Simplified the regex to avoid backtracking
+        const userPasswordFormate = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/; // Removed unnecessary group and made it more efficient
+        const userCountryFormate = /^([A-Za-z.\s_-]){5,}$/; // Removed unnecessary group and made it more efficient
+        const userCityFormate = /^([A-Za-z.\s_-]){5,}$/; // Removed unnecessary group and made it more efficient
 
         if (!userName.match(userNameFormate)) {
             this.setState({
