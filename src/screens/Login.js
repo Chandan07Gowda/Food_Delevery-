@@ -80,27 +80,43 @@ export default class Login extends Component {
                 userEmail: userEmail,
             });
         } else {
-            this.setState({
+this.setState({
                 showError: true,
                 registerFormError: "Please enter a valid email address.",
                 userEmail: ""
+            });
+        } else if (!userPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$/)) {
+            this.setState({
+                showError: true,
+                registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+                userPassword: ""
+            });
+        } else {
+            this.setState({
+                showError: false,
+                registerFormError: "",
+                userEmail: userEmail,
+                userPassword: userPassword
             });
         }
     }
 
     handleUserPassword(e) {
         const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
-        if (userPassword.match(userPasswordFormate)) {
-            this.setState({
-                showError: false,
-                registerFormError: "",
-                userPassword: userPassword,
-            });
-        } else {
+        if (userPassword.length < 10 || !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).+$/.test(userPassword)) {
             this.setState({
                 showError: true,
                 registerFormError: "Use alphanumeric, uppercase, lowercase & greater than 10 characters.",
+                userPassword: ""
+            });
+        } else {
+            this.setState({
+                showError: false,
+                registerFormError: "",
+                userPassword: userPassword
+            });
+        }
+    }
                 userPassword: "",
             });
         }
