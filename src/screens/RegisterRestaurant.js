@@ -69,7 +69,7 @@ export default class RegisterRestaurant extends Component {
             });
         } else {
             this.setState({
-                showError: true,
+showError: true,
                 registerFormError: "Please enter a valid email address.",
                 userEmail: ""
             });
@@ -78,7 +78,7 @@ export default class RegisterRestaurant extends Component {
 
     handleUserPassword(e) {
         const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        const userPasswordFormate = /(?=[^\n]*?\d)(?=[^\n]*?[a-z])(?=[^\n]*?[A-Z]).{10,}/;
         if (userPassword.match(userPasswordFormate)) {
             this.setState({
                 showError: false,
@@ -203,16 +203,16 @@ export default class RegisterRestaurant extends Component {
                 showError: true,
                 registerFormError: "Please accept terms and conditions.",
             })
-        }
+}
     }
 
     async handleCreateAccountBtn() {
         const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
 
-        // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
+        // const whiteSpaces = /^(?![ \t]*?$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
         const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
-        const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|("[^\n]+?"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+?\.)+[a-zA-Z]{2,}))$/;
+        const userPasswordFormate = /(?=[^\n]*?\d)(?=[^\n]*?[a-z])(?=[^\n]*?[A-Z]).{10,}/;
         const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
@@ -301,8 +301,7 @@ export default class RegisterRestaurant extends Component {
                 <div className="container-fluid register-cont1">
                     <div className="">
 Here is the fixed code with the 'javascript:' removed:
-
-```html
+html
 { /* <Navbar history={this.props.history} /> */ }
                         <Navbar2 history={this.props.history} />
                         <div className="container register-cont1-text">
@@ -321,6 +320,7 @@ Here is the fixed code with the 'javascript:' removed:
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor="userEmail">Email</label>
+                                    <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
                                     <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
                                 </div>
                             </div>

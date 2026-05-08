@@ -81,7 +81,7 @@ export default class Login extends Component {
             });
         } else {
             this.setState({
-                showError: true,
+showError: true,
                 registerFormError: "Please enter a valid email address.",
                 userEmail: ""
             });
@@ -90,7 +90,7 @@ export default class Login extends Component {
 
     handleUserPassword(e) {
         const userPassword = e;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        const userPasswordFormate = /(?=[^\n]*?\d)(?=[^\n]*?[a-z])(?=[^\n]*?[A-Z]).{10,}/;
         if (userPassword.match(userPasswordFormate)) {
             this.setState({
                 showError: false,
@@ -215,16 +215,16 @@ export default class Login extends Component {
                 showError: true,
                 registerFormError: "Please accept terms and conditions.",
             })
-        }
+}
     }
 
     async handleCreateAccountBtn() {
         const { userName, userEmail, userPassword, userConfirmPassword, userCity, userCountry, userGender, userAge, userProfileImage, userTNC } = this.state;
 
-        // const whiteSpaces = /^(?!\s*$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
+        // const whiteSpaces = /^(?![ \t]*?$)[-a-zA-Z0-9_:,.' ']{1,100}$/;
         const userNameFormate = /^([A-Za-z.\s_-]).{5,}$/;
-        const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const userPasswordFormate = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}/;
+        const userEmailFormate = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|("[^\n]+?"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+?\.)+[a-zA-Z]{2,}))$/;
+        const userPasswordFormate = /(?=[^\n]*?\d)(?=[^\n]*?[a-z])(?=[^\n]*?[A-Z]).{10,}/;
         const userCountryFormate = /^([A-Za-z.\s_-]).{5,}$/;
         const userCityFormate = /^([A-Za-z.\s_-]).{5,}$/;
 
@@ -329,10 +329,7 @@ export default class Login extends Component {
                     <div className="">
                         {/* <Navbar history={this.props.history} /> */}
 To address the security issue related to using 'javascript:' code in an HTML form tag, we can use a more secure alternative like using the `href` attribute with a URL that will load the appropriate login or registration page. We should avoid writing JavaScript code directly into the HTML since it can lead to security vulnerabilities.
-
-Here's how you can fix the code to address the security hotspot issue:
-
-```html
+html
 {isRegisterForm ?
     <div className="col-lg-6 col-md-8 col-sm-12 mx-auto bg-white shadow p-4">
         <h2 className="text-center mb-4">Create an Account</h2>
@@ -347,8 +344,6 @@ Here's how you can fix the code to address the security hotspot issue:
                     <input type="email" className="form-control" id="userEmail" placeholder="Email" onKeyUp={(e) => this.handleUserEmail(e.target.value)} />
                 </div>
             </div>
-
-```
 
 In the above code, we've changed the `action` attribute of the form to point to a URL that will load the appropriate login or registration page. We're using `.html` extension which is not secure but it's better than writing JavaScript code directly into the HTML.
 
@@ -398,6 +393,9 @@ Here is the modified code that addresses the security hotspot issue:
 <label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
                                     </div>
                                 </div>
+<label className="custom-control-label" htmlFor="userTNC">Accept Terms and Conditions</label>
+                                    </div>
+                                </div>
                                 <p className="text-danger">{showError ? registerFormError : null}</p>
                                 <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleCreateAccountBtn}><b>Create an Account</b></button>
                             </form>
@@ -413,11 +411,6 @@ Here is the modified code that addresses the security hotspot issue:
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="userLoginPassword">Password</label>
-                                    <input type="password" className="form-control" id="userLoginPassword" placeholder="Password" onChange={(e) => this.setState({ userLoginPassword: e.target.value })} />
-                                </div>
-                                <button type="submit" className="btn btn-warning text-uppercase mb-3" onClick={this.handleLoginNowBtn}><b>Login Now</b></button>
-                            </form>
-```
 
 I have made the following changes to fix the security hotspot issue:
 
